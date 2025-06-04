@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../constant";
 
-// nama func sama dengan nama file
 export default function Login() {
     const [login, setLogin] = useState({
         email: "",

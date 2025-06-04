@@ -103,7 +103,6 @@ export default function Restoration() {
 
 
     function handleBtnCreate(lending) {
-        // parameter diatur mengambil seluruh data lending, karna data lending yg diperlukan bukan hanya id, yang lainnya diperlukan untuk info modal
         setDetailLending(lending);
         setFormModal({
             ...formModal,
@@ -180,7 +179,6 @@ export default function Restoration() {
             }
         })
             .then((res) => {
-                // Setelah sukses bikin denda, langsung update status pengembalian
                 return axios.put(API_URL + `/peminjaman/pengembalian/${detailLending.id}`, formModal, {
                     headers: {
                         'Accept': 'application/json',
@@ -189,7 +187,6 @@ export default function Restoration() {
                 });
             })
             .then((res) => {
-                // Semua proses selesai
                 setIsModalOpen(false);
                 setIsSecondModalOpen(false);
                 setFormDenda({
