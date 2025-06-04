@@ -116,9 +116,7 @@ export default function Denda() {
                                                 </td>
                                                 <td>{value.id_buku}</td>
                                                 <td>
-                                                    <span className="badge bg-amber-100 text-amber-800">
-                                                        {value.jenis_denda}
-                                                    </span>
+                                                    {value.jenis_denda}
                                                 </td>
                                                 <td className="text-truncate" style={{ maxWidth: '300px' }} title={value.deskripsi}>
                                                     {value.deskripsi}
