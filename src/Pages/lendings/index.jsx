@@ -184,6 +184,7 @@ export default function Lendings() {
                             </label>
                             <input
                                 type="text"
+                                value={formModal.id_member}
                                 className="form-control"
                                 onChange={(e) => setFormModal({ ...formModal, id_member: e.target.value })}
                                 required

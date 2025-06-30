@@ -42,11 +42,17 @@ export default function Dashboard() {
                 }, {});
 
                 const formatted = Object.entries(lendingPerMonth)
-                    .sort(([a], [b]) => new Date(a) - new Date(b))
-                    .map(([key, value]) => ({
-                        name: key,
-                        value
-                    }));
+    .sort(([a], [b]) => new Date(a) - new Date(b))
+    .map(([key, value]) => {
+        const [year, month] = key.split("-");
+        const monthName = new Date(`${year}-${month}-01`).toLocaleString("id-ID", { month: "long" });
+
+        return {
+            name: `${year} - ${monthName}`,
+            value
+        };
+    });
+
 
                 setChartData(formatted);
                 setIsLoading(false);

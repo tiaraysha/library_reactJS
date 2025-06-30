@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faUserPen, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faTrash, faUserPen, faUserPlus, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export default function Members() {
     const [members, setMembers] = useState([]);
@@ -21,9 +21,12 @@ export default function Members() {
     const [selectedMember, setSelectedMember] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [detailMember, setDetailMember] = useState({});
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+    const [searchMember, setSearchMember] = useState("");
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 20;
+    const itemsPerPage = 10;
 
     const totalPages = Math.ceil(members.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -138,10 +141,14 @@ export default function Members() {
             });
     }
 
+    function handleBtnDetail(books) {
+        setDetailMember(books);
+        setIsDetailModalOpen(true);
+    }
+
     return (
         <>
             <div className="container-fluid" style={{ marginLeft: "120px", padding: "20px" }}>
-                {/* Header and Add Button */}
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <h2 className="mb-0 text-primary">
                         <FontAwesomeIcon icon={faUsers} className="me-2" />
@@ -158,6 +165,12 @@ export default function Members() {
                         <FontAwesomeIcon icon={faUserPlus} className="me-2" />
                         Tambah Member
                     </button>
+                    {/* <div className="d-flex">
+                    <input type="text" value={searchMember} onChange={(e) => setSearchMember(e.target.value)} placeholder="Cari member" />
+                    <button className="btn btn-outline-info">
+                        Cari
+                    </button>
+                    </div> */}
                 </div>
 
                 <div className="card shadow-sm border-0">
@@ -167,8 +180,9 @@ export default function Members() {
                                 <thead className="table-light">
                                     <tr>
                                         <th style={{ width: '5%' }} className="ps-4">#</th>
+                                        <th style={{ width: '5%' }}>ID Member</th>
                                         <th style={{ width: '15%' }}>No KTP</th>
-                                        <th style={{ width: '20%' }}>Nama</th>
+                                        <th style={{ width: '15%' }}>Nama</th>
                                         <th style={{ width: '30%' }}>Alamat</th>
                                         <th style={{ width: '15%' }}>Tanggal Lahir</th>
                                         <th style={{ width: '15%' }} className="text-center">Aksi</th>
@@ -178,6 +192,7 @@ export default function Members() {
                                     {currentMembers.map((value, index) => (
                                         <tr key={value.id}>
                                             <td className="ps-4">{index + 1}</td>
+                                            <td>{value.id}</td>
                                             <td>{value.no_ktp}</td>
                                             <td>
                                                 <span className="fw-semibold">{value.nama}</span>
@@ -221,6 +236,16 @@ export default function Members() {
                                                         title="Edit"
                                                     >
                                                         <FontAwesomeIcon icon={faUserPen} />
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-sm btn-outline-info"
+                                                        onClick={() => {
+                                                            handleBtnDetail(value);
+                                                            setError([]);
+                                                        }}
+                                                        title="Detail"
+                                                    >
+                                                        <FontAwesomeIcon icon={faInfo} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -459,6 +484,51 @@ export default function Members() {
                         </div>
                     </div>
                 </Modal>
+
+                {/* Modal detail */}
+                <Modal isOpen={isDetailModalOpen} onClose={() => setIsDetailModalOpen(false)} title="Detail Member">
+                                <div className="p-4">
+                                    <div className="mb-3">
+                                        <h5 className="fw-bold">{detailMember.nama}</h5>
+                                    </div>
+                
+                                    <div className="border-top border-bottom py-3 mb-4">
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">No KTP</small>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">Alamat</small>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">Tanggal Lahir</small>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">{detailMember.no_ktp}</small>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">{detailMember.alamat}</small>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <small className="text-muted d-block">{detailMember.tgl_lahir}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div className="d-flex justify-content-end">
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => setIsDetailModalOpen(false)}
+                                        >
+                                            Tutup
+                                        </button>
+                                    </div>
+                                </div>
+                            </Modal>
             </div>
         </>
     );

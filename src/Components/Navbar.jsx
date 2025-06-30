@@ -6,11 +6,9 @@ import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons/faPeopleGroup";
 
 export default function Navbar() {
   const location = useLocation();
-  const [searchKeyword, setSearchKeyword] = useState("");
   let navigate = useNavigate();
   let isLogin = localStorage.getItem("token");
 
-  // Don't render navbar on login page
   if (location.pathname === "/") {
     return <Outlet />;
   }

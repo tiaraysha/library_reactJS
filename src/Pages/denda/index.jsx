@@ -10,6 +10,11 @@ export default function Denda() {
 
     const [denda, setDenda] = useState([]);
     const [error, setError] = useState([]);
+    // const [filterDenda, setFilterDenda] = useState("Semua");
+    // const filteredDenda = denda.filter((denda) => {
+    //     if(filterDenda === "Semua") return true;
+    //     return denda.jenis_denda === filterDenda;
+    // })
 
     const [member, setMember] = useState([]);
     const [isDetailMember, setIsDetailMember] = useState(false);
@@ -28,7 +33,7 @@ export default function Denda() {
         axios.get(API_URL + "/denda", {
             headers: {
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}` // jika menggunakan token
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             }
         })
 
@@ -62,11 +67,12 @@ export default function Denda() {
             });
     }
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, []);
+    // useEffect(() => {
+    //     setCurrentPage(1);
+    // }, []);
 
     useEffect(() => {
+        setCurrentPage(1);
         fetchData();
     }, []);
 
@@ -89,7 +95,14 @@ export default function Denda() {
                                         <th style={{ width: '5%' }} className="ps-4">#</th>
                                         <th style={{ width: '15%' }}>ID Member</th>
                                         <th style={{ width: '10%' }}>ID Buku</th>
-                                        <th style={{ width: '15%' }}>Jenis Denda</th>
+                                        <th style={{ width: '15%' }}>Jenis Denda
+                                            {/* <select value={filterDenda} onChange={(e) => setFilterDenda(e.target.value)} className="form-select form-select-sm">
+                                                <option value="Semua">Semua</option>
+                                                <option value="kerusakan">Kerusakan</option>
+                                                <option value="terlambat">Terlambat</option>
+                                                <option value="lainnya">Lainnya</option>
+                                            </select> */}
+                                        </th>
                                         <th style={{ width: '40%' }}>Deskripsi</th>
                                         <th style={{ width: '15%' }}>Total Denda</th>
                                     </tr>
@@ -124,7 +137,8 @@ export default function Denda() {
                                                 <td className="fw-semibold text-danger">
                                                     {new Intl.NumberFormat('id-ID', {
                                                         style: 'currency',
-                                                        currency: 'IDR'
+                                                        currency: 'IDR',
+                                                        maximumFractionDigits: 0
                                                     }).format(value.jumlah_denda).replace('IDR', 'Rp')}
                                                 </td>
                                             </tr>
